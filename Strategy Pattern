@@ -6,9 +6,11 @@ class Main {
     public static void main(String[] args) {
         System.out.println("Try programiz.pro");
         
-    PaymentInfo cardInfo = new CreditCardInfo(new CardPay(41223222));
+    PaymentInfo cardInfo1 = new CreditCardInfo(new CardPay(41223222));
+    PaymentInfo cardInfo2 = new DebitCardInfo(new CardPay(81226422));
     
-    cardInfo.payInfo();
+    cardInfo1.payInfo();
+    cardInfo2.payInfo();
     }
 }
 
@@ -30,7 +32,19 @@ class CreditCardInfo extends PaymentInfo{
     }
 }
 
+class DebitCardInfo extends PaymentInfo{
+    public CreditCardInfo(PaymentStrategy paymentStrategy){
+        super(paymentStrategy);
+    }
+}
+
 class PayTm extends PaymentInfo{
+    public PayTm(PaymentStrategy paymentStrategy){
+        super(paymentStrategy);
+    }
+}
+
+class PhonePay extends PaymentInfo{
     public PayTm(PaymentStrategy paymentStrategy){
         super(paymentStrategy);
     }
