@@ -100,3 +100,6 @@ More  exmaples:
 1. Auth (User Password, Oauth, JWT Token)
 2. Pricing Rules (Flat Discount, % Discount, Festival Offer, Surge Price)
 3. Data Storage Strategy (SQL, DynamoDB, MongoDB)
+4. Tax Calculation (Country/State)
+5. File Compression(Zip, RAR, GZIP)
+6. Logging
