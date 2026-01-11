@@ -1,6 +1,10 @@
+Definition:
+Defined multiple algorithm, encapsulates their logic in dedicated class and enables changing on algo behaviour at runtime.
+
 Use when :
 1. You feel when mutiple child method are common.
 2. Easy to Interchange Behaviour (This reason is enough for using this pattern as help in Single Responsibility)
+
 
 class Main {
     public static void main(String[] args) {
