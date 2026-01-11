@@ -1,0 +1,84 @@
+Use when :
+1. You feel when mutiple child method are common.
+2. Easy to Interchange Behaviour (This reason is enough for using this pattern as help in Single Responsibility)
+
+class Main {
+    public static void main(String[] args) {
+        System.out.println("Try programiz.pro");
+        
+    PaymentInfo cardInfo = new CreditCardInfo(new CardPay(41223222));
+    
+    cardInfo.payInfo();
+    }
+}
+
+class PaymentInfo{
+      PaymentStrategy paymentStrategy; 
+      
+      public PaymentInfo(PaymentStrategy paymentStrategy){
+          this.paymentStrategy = paymentStrategy;
+      }
+      
+      public void payInfo(){
+          paymentStrategy.payInfo();
+      }
+}
+
+class CreditCardInfo extends PaymentInfo{
+    public CreditCardInfo(PaymentStrategy paymentStrategy){
+        super(paymentStrategy);
+    }
+}
+
+class PayTm extends PaymentInfo{
+    public PayTm(PaymentStrategy paymentStrategy){
+        super(paymentStrategy);
+    }
+}
+
+////////////
+
+abstract class PaymentStrategy {
+    public abstract void payInfo();
+}
+
+class UpiPay extends PaymentStrategy{
+    public int upiNum;
+    
+    UpiPay(int upiNum){
+     this.upiNum = upiNum;    
+    }
+    
+    public void payInfo(){
+        System.out.println("Pay using UPI "+ upiNum);
+    }
+}
+
+class CardPay extends PaymentStrategy{ 
+    public int cardNum;
+    
+    CardPay(int cardNum){
+       this.cardNum = cardNum; 
+    }
+    public void payInfo(){
+       System.out.println("Pay using cardNumber "+ cardNum); 
+    }
+}
+
+class PayPal extends PaymentStrategy{ 
+    public int email;
+    
+    PayPal(int email){
+     this.email = email;    
+    }
+    
+    public void payInfo(){
+       System.out.println("Pay using PayPal "+ email); 
+    }
+}
+
+
+More  exmaples:
+1. Auth (User Password, Oauth, JWT Token)
+2. Pricing Rules (Flat Discount, % Discount, Festival Offer, Surge Price)
+3. Data Storage Strategy (SQL, DynamoDB, MongoDB)
