@@ -1,0 +1,119 @@
+Definition:
+
+The Observer Pattern is a behavioral design pattern where an object (aka the "subject" or
+"observable" or “publisher”) maintains a list of dependents (called "observers") and
+automatically notifies them whenever there is a change in its state. The pattern also allows
+addition and removal of observers at runtime.
+
+Use Observer when multiple objects must automatically react to a change in another object, without tightly coupling them.(FAN-OUT)
+
+Its different from Kafka or event driven as it take place in sync but kafka is async(used for high scale system).
+
+
+Use when:
+1️⃣ One change → many reactions (fan-out)
+2️⃣ Observers can change over time
+3️⃣ In-process, synchronous reactions
+
+
+When You SHOULD NOT Use Observer ❌:
+🚫 1️⃣ Cross-service / distributed systems : Microservices (Breaks at scale)   ->>>>> VERY VERY IMP
+Use:
+Domain Events
+Kafka / MQ
+Webhooks
+🚫 2️⃣ Complex workflows / ordering: Observer gives no guarantees about: 
+Order of execution
+Retry
+Failure handling
+If these matter → use events / orchestration.
+🚫 3️⃣ Heavy logic in observers
+If observers:
+  Do I/O
+  Call databases
+  Are slow
+You risk:
+  Blocking
+  Cascading failures
+Observer is best for lightweight reactions.
+
+
+
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+class Main {
+    public static void main(String[] args) {
+        System.out.println("Try programiz.pro");
+        Observant ecommerce = new Ecommerce();
+        Observer user1 = new EmailNotification();
+        ecommerce.addConsumer(user1);
+        ecommerce.updateStock(10);
+    }
+}
+
+
+ interface Observant{
+    void addConsumer(Observer user);
+    void removeConsumer(Observer user);
+    void updateStock(int stock);
+    void notifyUsers();
+}
+
+
+ class Ecommerce implements Observant {
+    List<Observer> users;
+    int stock;
+    
+    Ecommerce(){
+        users = new ArrayList<>();
+    }
+    Ecommerce( int stock){
+        this.stock = stock;
+        users = new ArrayList<>();
+    }
+    
+    public void addConsumer(Observer user){
+        users.add(user);
+    }
+    
+    public void removeConsumer(Observer user){
+        users.remove(user);
+    }
+    
+    public void notifyUsers(){
+        for(Observer user: users){
+            user.update(stock);
+        }
+    }
+    
+    public void updateStock(int stock){
+        System.out.println("Updating stocks to "+ stock);
+        if(this.stock == 0 && stock>0){
+            this.stock = stock;
+            notifyUsers();
+        }
+        this.stock =+ stock;
+    }
+    
+}
+
+
+ interface Observer{
+    void update(int stock);
+}
+
+
+ class EmailNotification implements Observer{
+    
+    public void update(int stock){
+        System.out.println("Now stocks is available "+ stock);
+    }
+}
+
+
+Real life usage:
+1️⃣ UI & Frontend Frameworks (BIGGEST REAL USE)
+2️⃣ In-Memory Cache Invalidation/refresh (Very Common)
+3️⃣ Internal Framework Hooks / Lifecycle Callbacks
+6️⃣ Logging & Metrics Hooks (Internal)
